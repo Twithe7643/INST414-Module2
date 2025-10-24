@@ -9,7 +9,7 @@ data = pd.read_csv(r"c:/Users/Twith/OneDrive/414INST Work/listings.csv")
 sample = data[['id', 'host_id', 'name', 'neighbourhood', 'price']].head(10)
 print(sample)
 
-# Build the host-listing graph
+# Builds network using Networkx
 g = nx.Graph()
 for _, row in data.iterrows():
     g.add_edge(f"host_{row['host_id']}", f"listing_{row['id']}")
@@ -25,7 +25,7 @@ for node in g.nodes():
     if len(hosts_selected) == 4:
         break
 
-# Build a small subgraph with both hosts and their listings
+# Build a subsetted graph with both hosts and listings
 subset_nodes = set()
 for host in hosts_selected:
     subset_nodes.add(host)
@@ -38,7 +38,7 @@ degree_centrality = nx.degree_centrality(g)
 important_nodes = sorted(degree_centrality, key=degree_centrality.get, reverse=True)[:3]
 print("Most connected hosts:", important_nodes)
 
-#
+#Plots nodes
 node_colors = []
 for node in subgraph.nodes():
     if node in hosts_selected:
